@@ -8,6 +8,7 @@ use Mix.Config
 # Configures the endpoint
 config :hello_phoenix, HelloPhoenix.Endpoint,
   url: [host: "localhost"],
+  cache_static_manifest: "priv/static/manifest.json"
   root: Path.dirname(__DIR__),
   secret_key_base: "JlRlpE5Mw0YGti1Iv4dx4f7sp4egLsSnTyBY3PZWFf4HcCJqo62savwrBBvOHrh0",
   render_errors: [default_format: "html"],
@@ -18,9 +19,10 @@ config :hello_phoenix, HelloPhoenix.Endpoint,
 config :logger, :console,
   #format: "$time $metadata[$level] $message\n",
   #metadata: [:request_id],
-  level: :warn,
-  compile_time_purge_level: :info
+  level: :error,
+  compile_time_purge_level: :error
 
-# Import environment specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
+# Use production like settings for speed
+config :hello_phoenix, HelloPhoenix.Endpoint,
+  http: [port: {:system, "PORT"}],
+  url: [host: "example.com", port: 80],
